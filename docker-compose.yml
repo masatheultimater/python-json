@@ -1,0 +1,24 @@
+version: "3.9"
+services:
+  jupyter:
+    container_name: jupyter-analysis-env
+    build:
+      context: ./jupyter-analysis-env
+      dockerfile: Dockerfile
+    command: jupyter lab --allow-root --ip=0.0.0.0 --port=8888 --no-browser --NotebookApp.token='' --notebook-dir=/notebook
+    ports:
+      - 8888:8888
+    volumes:
+      - ./jupyter-analysis-env/jupyter-settings:/root/.jupyter
+      - ./notebook:/notebook
+
+# GPUを使う場合の設定
+    # environment:
+    #   - "NVIDIA_VISIBLE_DEVICES=all"
+    #   - "NVIDIA_DRIVER_CAPABILITIES=all"
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - capabilities:
+    #           - gpu
